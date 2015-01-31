@@ -5,7 +5,6 @@ public class Player : MonoBehaviour
 {
 	// Stab
 	float health;
-	RaycastHit hit;
 	float reach = 20.0f;
 	float damage = 20.0f;
 	// Position
@@ -14,6 +13,7 @@ public class Player : MonoBehaviour
 	public AudioSource footstepConcreteSound;
 	public AudioSource knifeMissSound;
 	public AudioSource knifeHitPlayerSound;
+	public AudioSource treeSound;
 	
 	void Awake(){
 		if (networkView.isMine){
@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
 	
 	void Stab(){
 		ArrayList potentialHits = new ArrayList();
-		for(int i = -30; i <=30; i+=10){
+		for (int i = -30; i <= 30; i += 10){
 			RaycastHit hit;
 			Vector3 slashVector = Vector3.forward;
 			slashVector.x += i * Mathf.PI/180;
@@ -57,8 +57,8 @@ public class Player : MonoBehaviour
 		}
 
 		string soundRPC = soundFX.SFX_KNIFE_MISS;
-		foreach(RaycastHit hit in potentialHits){
-			if(hit.transform.tag == "PlayerForStab"){
+		foreach (RaycastHit hit in potentialHits){
+			if (hit.transform.tag == "PlayerForStab"){
 				soundRPC = soundFX.SFX_KNIFE_HIT_PLAYER;
 				//networkView.RPC("takeDamage", RPCMode.Others, 0);
 			}
@@ -92,6 +92,17 @@ public class Player : MonoBehaviour
 		if (health <= 0.0){
 			Debug.Log("Died");
 			Destroy(this);
+		}
+	}
+	
+	public void OnTriggerEnter(Collider obj){
+		if (obj.tag == "Tree"){
+			if (networkView.isMine){
+				if (!treeSound.isPlaying){
+					treeSound.Play();
+				}
+				networkView.RPC("PlayRPCSound", RPCMode.Others, "T");
+			}
 		}
 	}
 }
