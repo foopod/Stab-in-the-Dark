@@ -27,7 +27,6 @@ public class Player : MonoBehaviour
 		footstepSound = audioSources[0];
 		knifeMissSound = audioSources[1];
 		knifeHitPlayerSound = audioSources[2];
-		
 	}
 	
 	void Update(){
@@ -51,15 +50,19 @@ public class Player : MonoBehaviour
 	
 	void Stab(){
 		Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward)*10, Color.red, reach, true);
+		string soundRPC;
 		if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, reach) && 
 				hit.transform.tag == "PlayerForStab"){
 			Debug.Log("Hit someone");
+			soundRPC = soundFX.SFX_KNIFE_HIT_PLAYER;
+			//networkView.RPC("takeDamage", RPCMode.Others, 0);
 			knifeHitPlayerSound.Play();
-			// Call damage on remote player
-			networkView.RPC("playRPCSound", RPCMode.Others, 0);
 		} else {
+			soundRPC = soundFX.SFX_KNIFE_MISS;
 			knifeMissSound.Play();
 		}
+		// Call damage on remote player
+		networkView.RPC("PlayRPCSound", RPCMode.Others, soundRPC);
 	}
 	
 	[RPC]

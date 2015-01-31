@@ -192,9 +192,10 @@ private function UpdateFunction () {
 		//walking = true;
 		if (!audio.isPlaying){
 			audio.Play();
-		}	
+		}
+		networkView.RPC("PlayWalk", RPCMode.Others, "");
 	} else {
-		//walking = false; 
+		//walking = false;
 		audio.Stop();
 	}
 

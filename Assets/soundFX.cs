@@ -3,9 +3,12 @@ using System.Collections;
 
 public class soundFX : MonoBehaviour {
 	
-	public AudioSource source;
-	public AudioClip knifeMissSound;
-	public AudioClip knifeHitPlayerSound;
+	public AudioSource knifeMissSound;
+	public AudioSource knifeHitPlayerSound;
+	public AudioSource footstepConcreteSound;
+	
+	public static string SFX_KNIFE_MISS = "M";
+	public static string SFX_KNIFE_HIT_PLAYER = "P";
 
 	void Awake() {
 		if (!networkView.isMine){
@@ -19,12 +22,19 @@ public class soundFX : MonoBehaviour {
 	}
 	
 	[RPC]
-	public void PlayRPCSound(int clipInt){
-		if (clipInt == 0){
-			source.clip = knifeMissSound;
-		} else if (clipInt == 1){
-			source.clip = knifeHitPlayerSound;
+	public void PlayRPCSound(string clip){
+		if (clip == SFX_KNIFE_MISS){
+			knifeMissSound.Play();
+		} else if (clip == SFX_KNIFE_HIT_PLAYER){
+			knifeHitPlayerSound.Play();
 		}
-		source.Play();
+	}
+	
+	[RPC]
+	public void PlayWalk(string clip){
+		AudioSource sound = footstepConcreteSound;
+		if (!sound.isPlaying){
+			sound.Play();
+		}
 	}
 }
