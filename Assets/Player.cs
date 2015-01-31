@@ -74,16 +74,23 @@ public class Player : MonoBehaviour
 			health -= amount;
 			if (health <= 0.0){
 				Debug.Log("Died");
-				Destroy(gameObject);
-				Application.Quit();
+				gameObject.transform.position = new Vector3(0.0f, -5.0f, 0.0f);
+				health = 100;
+				Invoke("respawn", 5);
+				
 			}
 		}
 	}
-	
+
+	void respawn(){
+		gameObject.transform.position = new Vector3(11.34f, 2.22f, -4.85f);
+		networkView.RPC("PlayRPCSound", RPCMode.All, soundFX.SFX_TREE);
+	}
+		
 	public void OnTriggerEnter(Collider obj){
 		if (obj.tag == "Tree"){
 			if (networkView.isMine){
-				networkView.RPC("PlayRPCSound", RPCMode.All, "T");
+				networkView.RPC("PlayRPCSound", RPCMode.All, soundFX.SFX_TREE);
 			}
 		}
 	}
