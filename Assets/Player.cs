@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
 			health -= amount;
 			if (health <= 0.0){
 				Debug.Log("Died");
-				gameObject.transform.position = new Vector3(0.0f, -5.0f, 0.0f);
+				gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 3.0f, gameObject.transform.position.z);
 				health = 100;
 				Invoke("respawn", 5);
 				
