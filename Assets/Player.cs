@@ -45,19 +45,43 @@ public class Player : MonoBehaviour
 	}
 	
 	void Stab(){
-		Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward)*10, Color.red, reach, true);
-		string soundRPC;
-		if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, reach) && 
-				hit.transform.tag == "PlayerForStab"){
-			Debug.Log("Hit someone");
-			soundRPC = soundFX.SFX_KNIFE_HIT_PLAYER;
-			//networkView.RPC("takeDamage", RPCMode.Others, 0);
+		ArrayList potentialHits = new ArrayList();
+		for(int i = -30; i <=30; i+=10){
+			RaycastHit hit;
+			Vector3 slashVector = Vector3.forward;
+			slashVector.x += i * Mathf.PI/180;
+			Debug.DrawRay(transform.position, transform.TransformDirection(slashVector)*10, Color.red, 10, true);
+			if (Physics.Raycast(transform.position, transform.TransformDirection(slashVector), out hit, reach)){
+				potentialHits.Add(hit);
+			}
+		}
+
+		string soundRPC = soundFX.SFX_KNIFE_MISS;
+		foreach(RaycastHit hit in potentialHits){
+			if(hit.transform.tag == "PlayerForStab"){
+				soundRPC = soundFX.SFX_KNIFE_HIT_PLAYER;
+				//networkView.RPC("takeDamage", RPCMode.Others, 0);
+			}
+		}
+
+		if(soundRPC == soundFX.SFX_KNIFE_HIT_PLAYER){
 			knifeHitPlayerSound.Play();
 		} else {
-			soundRPC = soundFX.SFX_KNIFE_MISS;
 			knifeMissSound.Play();
 		}
-		// Call damage on remote player
+		
+
+		// if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, reach) && 
+		// 		hit.transform.tag == "PlayerForStab"){
+		// 	Debug.Log("Hit someone");
+		// 	soundRPC = soundFX.SFX_KNIFE_HIT_PLAYER;
+		// 	//networkView.RPC("takeDamage", RPCMode.Others, 0);
+		// 	knifeHitPlayerSound.Play();
+		// } else {
+		// 	soundRPC = soundFX.SFX_KNIFE_MISS;
+		// 	knifeMissSound.Play();
+		// }
+		// // Call damage on remote player
 		networkView.RPC("PlayRPCSound", RPCMode.Others, soundRPC);
 	}
 	
