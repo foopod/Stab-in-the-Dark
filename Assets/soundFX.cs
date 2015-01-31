@@ -10,11 +10,13 @@ public class soundFX : MonoBehaviour {
 	public AudioSource knifeMissSound;
 	public AudioSource knifeMissSound2;
 	public AudioSource knifeHitPlayerSound;
-	public AudioSource treeSound;
+	public AudioSource woopSound;
+	public AudioSource deathScreamSound;
 	
 	public static string SFX_KNIFE_MISS = "M";
 	public static string SFX_KNIFE_HIT_PLAYER = "P";
-	public static string SFX_TREE = "T";
+	public static string SFX_WOOP = "W";
+	public static string SFX_DIE = "D";
 	
 	bool leftFoot = false;
 	AudioSource footstepStone1;
@@ -46,7 +48,7 @@ public class soundFX : MonoBehaviour {
 	}
 	
 	[RPC]
-	public void PlayRPCSound(string clip){
+	public void PlaySound(string clip){
 		if (clip == SFX_KNIFE_MISS){
 			if (Random.Range(0, 2) == 0){
 				knifeMissSound.Play();
@@ -55,8 +57,10 @@ public class soundFX : MonoBehaviour {
 			}
 		} else if (clip == SFX_KNIFE_HIT_PLAYER){
 			knifeHitPlayerSound.Play();
-		} else if (clip == SFX_TREE){
-			treeSound.Play();
+		} else if (clip == SFX_WOOP){
+			woopSound.Play();
+		} else if (clip == SFX_DIE){
+			deathScreamSound.Play();
 		}
 	}
 	

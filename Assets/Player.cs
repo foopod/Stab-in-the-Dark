@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
 	}
 	
 	void Stab(){
+		takeDamage(Network.player.ipAddress, 100.0f);
 		ArrayList potentialHits = new ArrayList();
 		for (int i = -30; i <= 30; i += 10){
 			RaycastHit hit;
@@ -62,7 +63,7 @@ public class Player : MonoBehaviour
 			}
 		}
 		
-		networkView.RPC("PlayRPCSound", RPCMode.All, soundRPC);
+		networkView.RPC("PlaySound", RPCMode.All, soundRPC);
 	}
 	
 	[RPC]
@@ -75,22 +76,22 @@ public class Player : MonoBehaviour
 			if (health <= 0.0){
 				Debug.Log("Died");
 				gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 3.0f, gameObject.transform.position.z);
+				networkView.RPC("PlaySound", RPCMode.All, soundFX.SFX_DIE);
 				health = 100;
 				Invoke("respawn", 5);
-				
 			}
 		}
 	}
 
 	void respawn(){
 		gameObject.transform.position = new Vector3(11.34f, 2.22f, -4.85f);
-		networkView.RPC("PlayRPCSound", RPCMode.All, soundFX.SFX_TREE);
+		networkView.RPC("PlaySound", RPCMode.All, soundFX.SFX_WOOP);
 	}
 		
 	public void OnTriggerEnter(Collider obj){
 		if (obj.tag == "Tree"){
 			if (networkView.isMine){
-				networkView.RPC("PlayRPCSound", RPCMode.All, soundFX.SFX_TREE);
+				networkView.RPC("PlaySound", RPCMode.All, soundFX.SFX_WOOP);
 			}
 		}
 	}
