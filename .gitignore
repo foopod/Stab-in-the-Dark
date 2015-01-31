@@ -28,3 +28,9 @@ sysinfo.txt
 Icon?
 ehthumbs.db
 [Tt]humbs.db 
+
+
+# ============ #
+# Custom Rules #
+# ============ #
+/*.cs.meta
