@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
 {
 	// Stab
 	float health;
+	RaycastHit hit;
 	float reach = 20.0f;
 	float damage = 20.0f;
 	// Position
@@ -49,7 +50,9 @@ public class Player : MonoBehaviour
 		for (int i = -30; i <= 30; i += 10){
 			RaycastHit hit;
 			Vector3 slashVector = Vector3.forward;
+			//Increment Slash angle
 			slashVector.x += i * Mathf.PI/180;
+			//Draw Debug rays
 			Debug.DrawRay(transform.position, transform.TransformDirection(slashVector)*10, Color.red, 10, true);
 			if (Physics.Raycast(transform.position, transform.TransformDirection(slashVector), out hit, reach)){
 				potentialHits.Add(hit);
@@ -60,7 +63,8 @@ public class Player : MonoBehaviour
 		foreach (RaycastHit hit in potentialHits){
 			if (hit.transform.tag == "PlayerForStab"){
 				soundRPC = soundFX.SFX_KNIFE_HIT_PLAYER;
-				//networkView.RPC("takeDamage", RPCMode.Others, 0);
+				string id = hit.transform.parent.networkView.owner.ipAddress;
+				networkView.RPC("takeDamage", RPCMode.Others, id, 100.0f);
 			}
 		}
 
@@ -86,12 +90,16 @@ public class Player : MonoBehaviour
 	}
 	
 	[RPC]
-	void takeDamage(float amount){
-		Debug.Log("Taking damage");
-		health -= amount;
-		if (health <= 0.0){
-			Debug.Log("Died");
-			Destroy(this);
+	void takeDamage(string id, float amount){
+		Debug.Log(networkView.owner.ipAddress);
+		Debug.Log(id);
+		if(networkView.owner.ipAddress == id){
+			Debug.Log("Taking damage");
+			health -= amount;
+			if (health <= 0.0){
+				Debug.Log("Died");
+				Destroy(this);
+			}
 		}
 	}
 	
