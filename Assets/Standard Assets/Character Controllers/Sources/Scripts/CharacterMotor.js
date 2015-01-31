@@ -180,6 +180,8 @@ function Awake () {
 	tr = transform;
 }
 
+public var footstepConcreteSound : AudioSource;
+
 private function UpdateFunction () {
 	// We copy the actual velocity into a temporary variable that we can manipulate.
 	var velocity : Vector3 = movement.velocity;
@@ -190,13 +192,13 @@ private function UpdateFunction () {
 	//Determine if moving
 	if(velocity.magnitude > 0.1){
 		//walking = true;
-		if (!audio.isPlaying){
-			audio.Play();
+		if (!footstepConcreteSound.isPlaying){
+			footstepConcreteSound.Play();
+			networkView.RPC("PlayWalk", RPCMode.Others, "");
 		}
-		networkView.RPC("PlayWalk", RPCMode.Others, "");
 	} else {
 		//walking = false;
-		audio.Stop();
+		footstepConcreteSound.Stop();
 	}
 
 

@@ -11,9 +11,9 @@ public class Player : MonoBehaviour
 	// Position
 	float x, y;
 	
-	AudioSource footstepSound;
-	AudioSource knifeMissSound;
-	AudioSource knifeHitPlayerSound;
+	public AudioSource footstepConcreteSound;
+	public AudioSource knifeMissSound;
+	public AudioSource knifeHitPlayerSound;
 	
 	void Awake(){
 		if (networkView.isMine){
@@ -23,10 +23,6 @@ public class Player : MonoBehaviour
 	
 	void Start(){
 		health = 100.0f;
-		AudioSource[] audioSources = GetComponents<AudioSource>();
-		footstepSound = audioSources[0];
-		knifeMissSound = audioSources[1];
-		knifeHitPlayerSound = audioSources[2];
 	}
 	
 	void Update(){
