@@ -64,7 +64,8 @@ public class Player : MonoBehaviour
 			if (hit.transform.tag == "PlayerForStab"){
 				soundRPC = soundFX.SFX_KNIFE_HIT_PLAYER;
 				string id = hit.transform.parent.networkView.owner.ipAddress;
-				networkView.RPC("takeDamage", RPCMode.Others, id, 100.0f);
+				Debug.Log("HitPlayer at IP: " + id);
+				networkView.RPC("takeDamage", RPCMode.Others, id, damage);
 			}
 		}
 
@@ -91,14 +92,15 @@ public class Player : MonoBehaviour
 	
 	[RPC]
 	void takeDamage(string id, float amount){
-		Debug.Log(networkView.owner.ipAddress);
-		Debug.Log(id);
-		if(networkView.owner.ipAddress == id){
+		Debug.Log("My IP: " + Network.player.ipAddress);
+		Debug.Log("HitPlayer IP: " + id);
+		if(Network.player.ipAddress == id){
 			Debug.Log("Taking damage");
 			health -= amount;
 			if (health <= 0.0){
 				Debug.Log("Died");
-				Destroy(this);
+				Destroy(gameObject);
+				Application.Quit();
 			}
 		}
 	}
