@@ -11,11 +11,6 @@ public class Player : MonoBehaviour
 	// Position
 	float x, y;
 	
-	public AudioSource footstepConcreteSound;
-	public AudioSource knifeMissSound;
-	public AudioSource knifeHitPlayerSound;
-	public AudioSource treeSound;
-	
 	void Awake(){
 		if (networkView.isMine){
 			GetComponent<AudioListener>().enabled = true;
@@ -40,7 +35,6 @@ public class Player : MonoBehaviour
 		}
 		
 		if (Input.GetMouseButtonDown(0) && networkView.isMine){
-			Debug.Log("Calling stab");
 			Stab();
 		}
 	}
@@ -58,36 +52,17 @@ public class Player : MonoBehaviour
 				potentialHits.Add(hit);
 			}
 		}
-
+		
 		string soundRPC = soundFX.SFX_KNIFE_MISS;
 		foreach (RaycastHit hit in potentialHits){
 			if (hit.transform.tag == "PlayerForStab"){
 				soundRPC = soundFX.SFX_KNIFE_HIT_PLAYER;
 				string id = hit.transform.parent.networkView.owner.ipAddress;
-				Debug.Log("HitPlayer at IP: " + id);
-				networkView.RPC("takeDamage", RPCMode.Others, id, damage);
+				networkView.RPC("takeDamage", RPCMode.Others, id, 100.0f);
 			}
 		}
-
-		if(soundRPC == soundFX.SFX_KNIFE_HIT_PLAYER){
-			knifeHitPlayerSound.Play();
-		} else {
-			knifeMissSound.Play();
-		}
 		
-
-		// if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, reach) && 
-		// 		hit.transform.tag == "PlayerForStab"){
-		// 	Debug.Log("Hit someone");
-		// 	soundRPC = soundFX.SFX_KNIFE_HIT_PLAYER;
-		// 	//networkView.RPC("takeDamage", RPCMode.Others, 0);
-		// 	knifeHitPlayerSound.Play();
-		// } else {
-		// 	soundRPC = soundFX.SFX_KNIFE_MISS;
-		// 	knifeMissSound.Play();
-		// }
-		// // Call damage on remote player
-		networkView.RPC("PlayRPCSound", RPCMode.Others, soundRPC);
+		networkView.RPC("PlayRPCSound", RPCMode.All, soundRPC);
 	}
 	
 	[RPC]
@@ -108,10 +83,7 @@ public class Player : MonoBehaviour
 	public void OnTriggerEnter(Collider obj){
 		if (obj.tag == "Tree"){
 			if (networkView.isMine){
-				if (!treeSound.isPlaying){
-					treeSound.Play();
-				}
-				networkView.RPC("PlayRPCSound", RPCMode.Others, "T");
+				networkView.RPC("PlayRPCSound", RPCMode.All, "T");
 			}
 		}
 	}

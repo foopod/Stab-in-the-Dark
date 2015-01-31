@@ -190,17 +190,10 @@ private function UpdateFunction () {
 	velocity = ApplyInputVelocityChange(velocity);
 
 	//Determine if moving
-	if(velocity.magnitude > 0.1){
+	if (velocity.magnitude > 0.1){
 		//walking = true;
-		if (!footstepConcreteSound.isPlaying){
-			footstepConcreteSound.Play();
-			networkView.RPC("PlayWalk", RPCMode.Others, "");
-		}
-	} else {
-		//walking = false;
-		footstepConcreteSound.Stop();
+		networkView.RPC("PlayWalk", RPCMode.All, "");
 	}
-
 
 	// Apply gravity and jumping force
 	velocity = ApplyGravityAndJumping (velocity);
