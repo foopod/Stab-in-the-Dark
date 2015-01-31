@@ -11,8 +11,23 @@ public class Player : MonoBehaviour
 	// Position
 	float x, y;
 	
+	AudioSource footstepSound;
+	AudioSource knifeMissSound;
+	AudioSource knifeHitPlayerSound;
+	
+	void Awake(){
+		if (networkView.isMine){
+			GetComponent<AudioListener>().enabled = true;
+		}
+	}
+	
 	void Start(){
 		health = 100.0f;
+		AudioSource[] audioSources = GetComponents<AudioSource>();
+		footstepSound = audioSources[0];
+		knifeMissSound = audioSources[1];
+		knifeHitPlayerSound = audioSources[2];
+		
 	}
 	
 	void Update(){
@@ -28,7 +43,7 @@ public class Player : MonoBehaviour
 			transform.rotation = rotation;
 		}
 		
-		if (Input.GetMouseButtonDown(0)){
+		if (Input.GetMouseButtonDown(0) && networkView.isMine){
 			Debug.Log("Calling stab");
 			Stab();
 		}
@@ -39,10 +54,11 @@ public class Player : MonoBehaviour
 		if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, reach) && 
 				hit.transform.tag == "PlayerForStab"){
 			Debug.Log("Hit someone");
-			//hit.transform.gameObject.SendMessage("takeDamage", damage);
-			hit.transform.GetComponent<NetworkView>().RPC("takeDamage", RPCMode.All, damage);
-		}else{
-			// stabSound.Play();
+			knifeHitPlayerSound.Play();
+			// Call damage on remote player
+			networkView.RPC("playRPCSound", RPCMode.Others, 0);
+		} else {
+			knifeMissSound.Play();
 		}
 	}
 	

@@ -13,7 +13,6 @@ public class GameMenu : MonoBehaviour
 		// Enable player camera/listeners
         g.camera.enabled = true;
         camera.enabled = false;
-		(g.GetComponent(typeof(AudioListener)) as AudioListener).enabled = true;
     }
     void OnDisconnectedFromServer()
     {
