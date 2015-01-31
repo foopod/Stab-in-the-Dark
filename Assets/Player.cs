@@ -41,6 +41,8 @@ public class Player : MonoBehaviour
 			Debug.Log("Hit someone");
 			//hit.transform.gameObject.SendMessage("takeDamage", damage);
 			hit.transform.GetComponent<NetworkView>().RPC("takeDamage", RPCMode.All, damage);
+		}else{
+			// stabSound.Play();
 		}
 	}
 	

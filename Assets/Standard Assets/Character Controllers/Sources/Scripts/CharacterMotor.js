@@ -186,7 +186,19 @@ private function UpdateFunction () {
 	
 	// Update velocity based on input
 	velocity = ApplyInputVelocityChange(velocity);
-	
+
+	//Determine if moving
+	if(velocity.magnitude > 0.1){
+		//walking = true;
+		if (!audio.isPlaying){
+			audio.Play();
+		}	
+	} else {
+		//walking = false; 
+		audio.Stop();
+	}
+
+
 	// Apply gravity and jumping force
 	velocity = ApplyGravityAndJumping (velocity);
 	
