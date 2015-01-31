@@ -10,8 +10,10 @@ public class GameMenu : MonoBehaviour
     {
         connected = true;
         var g = (GameObject)Network.Instantiate(PlayerPrefab, transform.position, transform.rotation, 1);
+		// Enable player camera/listeners
         g.camera.enabled = true;
         camera.enabled = false;
+		(g.GetComponent(typeof(AudioListener)) as AudioListener).enabled = true;
     }
     void OnDisconnectedFromServer()
     {
