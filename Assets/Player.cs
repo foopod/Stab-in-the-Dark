@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
 	}
 	
 	void Stab(){
-		takeDamage(Network.player.ipAddress, 100.0f);
+		//takeDamage(Network.player.ipAddress, 100.0f);
 		ArrayList potentialHits = new ArrayList();
 		for (int i = -30; i <= 30; i += 10){
 			RaycastHit hit;
