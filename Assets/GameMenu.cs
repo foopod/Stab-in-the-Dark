@@ -5,15 +5,18 @@ public class GameMenu : MonoBehaviour
 {
     public GameObject PlayerPrefab;
     string ip = "127.0.0.1";
-
+	
+	void Awake(){
+	}
+	
     public void CreatePlayer()
     {
         connected = true;
+		GetComponent<AudioListener>().enabled = false;
         var g = (GameObject)Network.Instantiate(PlayerPrefab, transform.position, transform.rotation, 1);
 		// Enable player camera/listeners
         g.camera.enabled = true;
         camera.enabled = false;
-		GetComponent<AudioListener>().enabled = false;
     }
     void OnDisconnectedFromServer()
     {
@@ -32,6 +35,8 @@ public class GameMenu : MonoBehaviour
         CreatePlayer();
     }
     bool connected;
+	static int levelNum = 0;
+	const int levelCount = 2;
     void OnGUI()
     {
         if (!connected)
@@ -45,6 +50,13 @@ public class GameMenu : MonoBehaviour
             {
                 Network.InitializeServer(10, 5300, false);
             }
+			if (gui.Button("change")){
+				levelNum += 1;
+				if (levelNum >= levelCount){
+					levelNum = 0;
+				}
+				Application.LoadLevel(levelNum);
+			}
         }
     }
 }
