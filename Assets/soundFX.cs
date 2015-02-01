@@ -10,9 +10,12 @@ public class soundFX : MonoBehaviour {
 	public AudioSource knifeMissSound;
 	public AudioSource knifeMissSound2;
 	public AudioSource knifeHitPlayerSound;
+	
 	public AudioSource woopSound;
+	
 	public AudioSource deathScreamSound;
 	public AudioSource playerBurnt;
+	public AudioSource treeRustle;
 	
 	public AudioSource kateYouHaveDied;
 	
@@ -29,6 +32,7 @@ public class soundFX : MonoBehaviour {
 	public static string SFX_KNIFE_MISS = "M";
 	public static string SFX_KNIFE_HIT_PLAYER = "P";
 	public static string SFX_WOOP = "W";
+	public static string SFX_TREE = "T";
 	public static string SFX_DIE = "D";
 	public static string SFX_DIE_YOU = "Y";
 	public static string SFX_BURNT = "B";
@@ -75,6 +79,8 @@ public class soundFX : MonoBehaviour {
 			Invoke("PlayYouHaveDied", 3);
 		} else if (clip == SFX_BURNT){
 			playerBurnt.Play();
+		} else if (clip == SFX_TREE){
+			treeRustle.Play();
 		}
 	}
 	

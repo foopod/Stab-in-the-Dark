@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
 	public void OnTriggerEnter(Collider obj){
 		if (obj.tag == "Tree"){
 			if (networkView.isMine){
-				networkView.RPC("PlaySound", RPCMode.All, soundFX.SFX_WOOP);
+				networkView.RPC("PlaySound", RPCMode.All, soundFX.SFX_TREE);
 			}
 		} else if (obj.tag == "Fire"){
 			if (networkView.isMine){
