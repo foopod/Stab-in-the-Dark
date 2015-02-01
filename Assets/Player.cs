@@ -73,11 +73,10 @@ public class Player : MonoBehaviour
 	
 	[RPC]
 	void takeDamage(string id, float amount){
-		Debug.Log("My IP: " + Network.player.ipAddress);
-		Debug.Log("HitPlayer IP: " + id);
-		if(Network.player.ipAddress == id){
+		if (networkView.isMine){
 			Debug.Log("Taking damage");
 			health -= amount;
+			Debug.Log("Remaining health : "+health);
 			if (health <= 0.0){
 				Debug.Log("Died");
 				gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 3.0f, gameObject.transform.position.z);
