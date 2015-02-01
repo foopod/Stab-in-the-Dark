@@ -37,6 +37,10 @@ public class Player : MonoBehaviour
 		if (Input.GetMouseButtonDown(0) && networkView.isMine){
 			Stab();
 		}
+		
+		if (Input.GetMouseButtonDown(2) && networkView.isMine){
+			networkView.RPC("Taunt", RPCMode.All, "");
+		}
 	}
 	
 	void Stab(){

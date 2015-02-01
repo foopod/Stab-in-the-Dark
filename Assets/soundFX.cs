@@ -15,6 +15,14 @@ public class soundFX : MonoBehaviour {
 	
 	public AudioSource kateYouHaveDied;
 	
+	public AudioSource ryanWatchYourBack;
+	public AudioSource ryanTaze;
+	public AudioSource ryanSwiggity;
+	public AudioSource ryanSuckMyDick;
+	public AudioSource ryanSpleen;
+	public AudioSource ryanInternetToughGuy;
+	public AudioSource ryanStabMe;
+	
 	public static string SFX_KNIFE_MISS = "M";
 	public static string SFX_KNIFE_HIT_PLAYER = "P";
 	public static string SFX_WOOP = "W";
@@ -28,24 +36,18 @@ public class soundFX : MonoBehaviour {
 	void Awake(){
 		int r = Random.Range(0, 3);
 		if (r == 0){
-			Debug.Log("Stone 1");
 			footstepStone1 = footstepStoneSound;
 		} else if (r == 1){
-			Debug.Log("Stone 1");
 			footstepStone1 = footstepStoneSound2;
 		} else {
-			Debug.Log("Stone 1");
 			footstepStone1 = footstepStoneSound3;
 		}
 		r = Random.Range(0, 3);
 		if (r == 0){
-			Debug.Log("Stone 2");
 			footstepStone2 = footstepStoneSound;
 		} else if (r == 1){
-			Debug.Log("Stone 2");
 			footstepStone2 = footstepStoneSound2;
 		} else {
-			Debug.Log("Stone 2");
 			footstepStone2 = footstepStoneSound3;
 		}
 	}
@@ -74,6 +76,41 @@ public class soundFX : MonoBehaviour {
 		kateYouHaveDied.Play();
 	}
 	
+	int lastTaunt = 0;
+	bool tauntAvailable = true;
+	
+	[RPC]
+	public void Taunt(string taunt){
+		if (tauntAvailable){
+			tauntAvailable = false;
+			int r = Random.Range(0, 7);
+			while (r == lastTaunt){
+				r = Random.Range(0, 7);
+			}
+			lastTaunt = r;
+			if (r == 0){
+				ryanWatchYourBack.Play();
+			} else if (r == 1){
+				ryanTaze.Play();
+			} else if (r == 2){
+				ryanSwiggity.Play();
+			} else if (r == 3){
+				ryanSuckMyDick.Play();
+			} else if (r == 4){
+				ryanSpleen.Play();
+			} else if (r == 5){
+				ryanInternetToughGuy.Play();
+			} else if (r == 6){
+				ryanStabMe.Play();
+			}
+			Invoke("TauntAvailable", 3);
+		}
+	}
+	
+	void TauntAvailable(){
+		tauntAvailable = true;
+	}
+	
 	[RPC]
 	public void PlayWalk(string clip){
 		AudioSource sound;
@@ -84,10 +121,8 @@ public class soundFX : MonoBehaviour {
 		}
 		if (!sound.isPlaying){
 			if (!leftFoot){
-				Debug.Log("Playing right foot");
 				sound = footstepStone1;
 			} else {
-				Debug.Log("Playing left foot");
 				sound = footstepStone2;
 			}
 			sound.Play();
