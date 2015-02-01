@@ -10,12 +10,14 @@ public class Player : MonoBehaviour
 	float damage = 10.0f;
 	// Position
 	float x, y;
+	Vector3 spawnLocation;
 	
 	void Awake(){
 		if (networkView.isMine){
 			GetComponent<AudioListener>().enabled = true;
 			Screen.lockCursor = true;
 		}
+		spawnLocation = gameObject.transform.position;
 	}
 	
 	void Start(){
@@ -45,7 +47,7 @@ public class Player : MonoBehaviour
 	}
 	
 	void Stab(){
-		//takeDamage(Network.player.ipAddress, 100.0f);
+		takeDamage(Network.player.ipAddress, 100.0f);
 		ArrayList potentialHits = new ArrayList();
 		for (int i = -30; i <= 30; i += 10){
 			RaycastHit hit;
@@ -89,7 +91,7 @@ public class Player : MonoBehaviour
 	}
 
 	void respawn(){
-		gameObject.transform.position = new Vector3(11.34f, 2.22f, -4.85f);
+		gameObject.transform.position = spawnLocation;
 		networkView.RPC("PlaySound", RPCMode.All, soundFX.SFX_WOOP);
 	}
 		
