@@ -189,12 +189,6 @@ private function UpdateFunction () {
 	// Update velocity based on input
 	velocity = ApplyInputVelocityChange(velocity);
 
-	//Determine if moving
-	if (velocity.magnitude > 0.1){
-		//walking = true;
-		networkView.RPC("PlayWalk", RPCMode.All, "");
-	}
-
 	// Apply gravity and jumping force
 	velocity = ApplyGravityAndJumping (velocity);
 	
@@ -235,6 +229,11 @@ private function UpdateFunction () {
 	
    	// Move our character!
 	movement.collisionFlags = controller.Move (currentMovementOffset);
+
+	//Determine if moving
+	if (currentMovementOffset.magnitude > 15.5*Time.deltaTime){	//15.5(speed) is the threshold for footsteps to start
+		networkView.RPC("PlayWalk", RPCMode.All, "");
+	}
 	
 	movement.lastHitPoint = movement.hitPoint;
 	lastGroundNormal = groundNormal;
