@@ -12,6 +12,7 @@ public class soundFX : MonoBehaviour {
 	public AudioSource knifeHitPlayerSound;
 	public AudioSource woopSound;
 	public AudioSource deathScreamSound;
+	public AudioSource playerBurnt;
 	
 	public AudioSource kateYouHaveDied;
 	
@@ -22,12 +23,15 @@ public class soundFX : MonoBehaviour {
 	public AudioSource ryanSpleen;
 	public AudioSource ryanInternetToughGuy;
 	public AudioSource ryanStabMe;
+	public AudioSource ryanYoullNeverSeeMe;
+	public AudioSource ryanFruityFruityBumBum;
 	
 	public static string SFX_KNIFE_MISS = "M";
 	public static string SFX_KNIFE_HIT_PLAYER = "P";
 	public static string SFX_WOOP = "W";
 	public static string SFX_DIE = "D";
 	public static string SFX_DIE_YOU = "Y";
+	public static string SFX_BURNT = "B";
 	
 	bool leftFoot = false;
 	AudioSource footstepStone1;
@@ -69,6 +73,8 @@ public class soundFX : MonoBehaviour {
 		} else if (clip == SFX_DIE_YOU){
 			deathScreamSound.Play();
 			Invoke("PlayYouHaveDied", 3);
+		} else if (clip == SFX_BURNT){
+			playerBurnt.Play();
 		}
 	}
 	
@@ -83,9 +89,9 @@ public class soundFX : MonoBehaviour {
 	public void Taunt(string taunt){
 		if (tauntAvailable){
 			tauntAvailable = false;
-			int r = Random.Range(0, 7);
+			int r = Random.Range(0, 9);
 			while (r == lastTaunt){
-				r = Random.Range(0, 7);
+				r = Random.Range(0, 9);
 			}
 			lastTaunt = r;
 			if (r == 0){
@@ -102,6 +108,10 @@ public class soundFX : MonoBehaviour {
 				ryanInternetToughGuy.Play();
 			} else if (r == 6){
 				ryanStabMe.Play();
+			} else if (r == 7){
+				ryanYoullNeverSeeMe.Play();
+			} else if (r == 8){
+				ryanFruityFruityBumBum.Play();
 			}
 			Invoke("TauntAvailable", 3);
 		}

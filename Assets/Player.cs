@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 	float health;
 	RaycastHit hit;
 	float reach = 20.0f;
-	float damage = 20.0f;
+	float damage = 10.0f;
 	// Position
 	float x, y;
 	
@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
 				gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 3.0f, gameObject.transform.position.z);
 				networkView.RPC("PlaySound", RPCMode.Others, soundFX.SFX_DIE);
 				GetComponent<soundFX>().PlaySound(soundFX.SFX_DIE_YOU);
-				health = 100;
+				health = 100.0f;
 				Invoke("respawn", 5);
 			}
 		}
@@ -98,6 +98,11 @@ public class Player : MonoBehaviour
 		if (obj.tag == "Tree"){
 			if (networkView.isMine){
 				networkView.RPC("PlaySound", RPCMode.All, soundFX.SFX_WOOP);
+			}
+		} else if (obj.tag == "Fire"){
+			if (networkView.isMine){
+				networkView.RPC("PlaySound", RPCMode.All, soundFX.SFX_BURNT);
+				takeDamage(Network.player.ipAddress, 20.0f);
 			}
 		}
 	}
