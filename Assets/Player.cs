@@ -76,7 +76,8 @@ public class Player : MonoBehaviour
 			if (health <= 0.0){
 				Debug.Log("Died");
 				gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y - 3.0f, gameObject.transform.position.z);
-				networkView.RPC("PlaySound", RPCMode.All, soundFX.SFX_DIE);
+				networkView.RPC("PlaySound", RPCMode.Others, soundFX.SFX_DIE);
+				GetComponent<soundFX>().PlaySound(soundFX.SFX_DIE_YOU);
 				health = 100;
 				Invoke("respawn", 5);
 			}

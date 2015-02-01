@@ -13,10 +13,13 @@ public class soundFX : MonoBehaviour {
 	public AudioSource woopSound;
 	public AudioSource deathScreamSound;
 	
+	public AudioSource kateYouHaveDied;
+	
 	public static string SFX_KNIFE_MISS = "M";
 	public static string SFX_KNIFE_HIT_PLAYER = "P";
 	public static string SFX_WOOP = "W";
 	public static string SFX_DIE = "D";
+	public static string SFX_DIE_YOU = "Y";
 	
 	bool leftFoot = false;
 	AudioSource footstepStone1;
@@ -61,7 +64,14 @@ public class soundFX : MonoBehaviour {
 			woopSound.Play();
 		} else if (clip == SFX_DIE){
 			deathScreamSound.Play();
+		} else if (clip == SFX_DIE_YOU){
+			deathScreamSound.Play();
+			Invoke("PlayYouHaveDied", 3);
 		}
+	}
+	
+	void PlayYouHaveDied(){
+		kateYouHaveDied.Play();
 	}
 	
 	[RPC]
