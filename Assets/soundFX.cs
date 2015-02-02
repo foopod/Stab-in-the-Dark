@@ -40,6 +40,7 @@ public class soundFX : MonoBehaviour {
 	public AudioSource heatherOptionsHost;
 	public AudioSource heatherOptionsChooseLevel;
 	public AudioSource heatherOptionsEnterIP;
+	private AudioSource[] sounds;
 
 
 	public static int SFX_MENU_INTRO = 1;
@@ -78,6 +79,10 @@ public class soundFX : MonoBehaviour {
 		// Initialise taunt list
 		tauntList = new AudioSource[]{ryanWatchYourBack, ryanTaze, ryanSwiggity, ryanSuckMyDick, 
 				ryanSpleen, ryanInternetToughGuy, ryanStabMe, ryanYoullNeverSeeMe, ryanFruityFruityBumBum};
+		sounds = new AudioSource[]{heatherIntroduction, heatherIntroductionWhatDo, 
+				heatherInstructionsUpDown, heatherInstructionsLeftClick, heatherInstructionsRightClick,
+				heatherOptionsJoin, heatherOptionsHost, heatherOptionsEnterIP, heatherOptionsChooseLevel,
+				heatherLevelFirePit, heatherLevelBunker};
 	}
 	
 	[RPC]
@@ -110,31 +115,9 @@ public class soundFX : MonoBehaviour {
 
 	public void PlayMenuSound(int sound, float delay){
 		AudioSource soundToPlay = null;
-		
-		if(sound == SFX_MENU_INTRO){
-			soundToPlay = heatherIntroduction;
-		} else if(sound == SFX_MENU_WHAT_DO){
-			soundToPlay = heatherIntroductionWhatDo;
-		} else if(sound == SFX_MENU_INSTRUCTIONS_NAV1){
-			soundToPlay = heatherInstructionsUpDown;
-		} else if(sound == SFX_MENU_INSTRUCTIONS_NAV2){
-			soundToPlay = heatherInstructionsLeftClick;
-		} else if(sound == SFX_MENU_INSTRUCTIONS_NAV3){
-			soundToPlay = heatherInstructionsRightClick;
-		} else if(sound == SFX_MENU_OPTIONS_JOIN){
-			soundToPlay = heatherOptionsJoin;
-		} else if(sound == SFX_MENU_OPTIONS_HOST){
-			soundToPlay = heatherOptionsHost;
-		} else if(sound == SFX_MENU_OPTIONS_ENTER_IP){
-			soundToPlay = heatherOptionsEnterIP;
-		} else if(sound == SFX_MENU_OPTIONS_CHOOSE_LEVEL){
-			soundToPlay = heatherOptionsChooseLevel;
-		} else if(sound == SFX_MENU_LEVEL_FIREPIT){
-			soundToPlay = heatherLevelFirePit;
-		} else if(sound == SFX_MENU_LEVEL_BUNKER){
-			soundToPlay = heatherLevelBunker;
-		} else if(sound == SFX_MENU_SKIP){
-  			AudioSource[] sounds = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
+		if(sound < 12){
+			soundToPlay = sounds[sound - 1];
+		}else if(sound == SFX_MENU_SKIP){
   			foreach(AudioSource a in sounds){
   				a.Stop();
   			}

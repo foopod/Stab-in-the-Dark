@@ -34,10 +34,15 @@ public class GameMenu : MonoBehaviour
 
     void skipIntro(){
         if(skipped != true){
-            GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_SKIP, 0f);
-            GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN, 0f);
+            playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN);
             skipped = true;
         }
+    }
+
+    //cancels playing and plays new
+    void playLocalMenuSound(int id){
+        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_SKIP, 0f);
+        GetComponent<soundFX>().PlayMenuSound(id, 0f);
     }
 
     void Update(){
@@ -46,47 +51,47 @@ public class GameMenu : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.W) && skipped){
                 //Moving up in the Main menu
                 if(currentMenuItem == MENU_JOIN){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_CHOOSE_LEVEL, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_CHOOSE_LEVEL);
                     currentMenuItem = MENU_LEVEL_OPTIONS;
                 } else if(currentMenuItem == MENU_HOST){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN);
                     currentMenuItem = MENU_JOIN;
                 } else if(currentMenuItem == MENU_LEVEL_OPTIONS){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_HOST, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_HOST);
                     currentMenuItem = MENU_HOST;
                 //Moving up in the level menu
                 } else if(currentMenuItem == MENU_FIREPIT){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_LEVEL_BUNKER, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_LEVEL_BUNKER);
                     currentMenuItem = MENU_BUNKER;
                 } else if(currentMenuItem == MENU_BUNKER){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_LEVEL_FIREPIT, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_LEVEL_FIREPIT);
                     currentMenuItem = MENU_FIREPIT;
                 }
             }
             if (Input.GetKeyDown(KeyCode.S) && skipped){
                 //Moving down in the Main menu
                 if(currentMenuItem == MENU_JOIN){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_HOST, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_HOST);
                     currentMenuItem = MENU_HOST;
                 } else  if(currentMenuItem == MENU_HOST){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_CHOOSE_LEVEL, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_CHOOSE_LEVEL);
                     currentMenuItem = MENU_LEVEL_OPTIONS;
                 } else if(currentMenuItem == MENU_LEVEL_OPTIONS){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN);
                     currentMenuItem = MENU_JOIN;
                 //Moving down in the level menu
                 } else if(currentMenuItem == MENU_FIREPIT){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_LEVEL_BUNKER, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_LEVEL_BUNKER);
                     currentMenuItem = MENU_BUNKER;
                 } else if(currentMenuItem == MENU_BUNKER){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_LEVEL_FIREPIT, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_LEVEL_FIREPIT);
                     currentMenuItem = MENU_FIREPIT;
                 }
             }
             if (Input.GetMouseButtonDown(0) && skipped){
                 //toggle onGUI to enter IP
                 if(currentMenuItem == MENU_JOIN){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_ENTER_IP, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_ENTER_IP);
                     currentMenuItem = MENU_ENTER_IP;
                     enteringIP = true;
                 //Start hosting a game
@@ -95,7 +100,7 @@ public class GameMenu : MonoBehaviour
                     menuEnabled = false;
                 //Move to level Select
                 } else  if(currentMenuItem == MENU_LEVEL_OPTIONS){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_LEVEL_FIREPIT, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_LEVEL_FIREPIT);
                     currentMenuItem = MENU_FIREPIT;
                 //Loading different levels
                 } else  if(currentMenuItem == MENU_FIREPIT){
@@ -107,17 +112,17 @@ public class GameMenu : MonoBehaviour
             if (Input.GetMouseButtonDown(1) && skipped){
                 //Moving back to previous menus
                 if(currentMenuItem == MENU_ENTER_IP){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN);
                     currentMenuItem = MENU_JOIN;
                     enteringIP = false;
                 } else if(currentMenuItem == MENU_FIREPIT || currentMenuItem == MENU_BUNKER ){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_HOST, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_HOST);
                     currentMenuItem = MENU_HOST;
                 } else  if(currentMenuItem == MENU_FIREPIT){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN);
                     currentMenuItem = MENU_LEVEL_OPTIONS;
                 } else  if(currentMenuItem == MENU_BUNKER){
-                    GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN, 0f);
+                    playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN);
                     currentMenuItem = MENU_LEVEL_OPTIONS;
                 }
             }
