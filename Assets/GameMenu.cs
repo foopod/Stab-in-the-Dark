@@ -111,7 +111,7 @@ public class GameMenu : MonoBehaviour
                     Application.LoadLevel(0);
                 }
             }
-            if (Input.GetMouseButtonDown(1) && skipped){
+            if (Input.GetMouseButtonDown(2) && skipped){
                 //Moving back to previous menus
                 if(currentMenuItem == MENU_ENTER_IP){
                     playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN);

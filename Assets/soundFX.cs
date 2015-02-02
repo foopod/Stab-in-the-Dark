@@ -30,7 +30,7 @@ public class soundFX : MonoBehaviour {
 	public AudioSource ryanFruityFruityBumBum;
 
 	public AudioSource heatherInstructionsUpDown;
-	public AudioSource heatherInstructionsRightClick;
+	public AudioSource heatherInstructionsMiddleClick;
 	public AudioSource heatherInstructionsLeftClick;
 	public AudioSource heatherIntroduction;
 	public AudioSource heatherIntroductionWhatDo;
@@ -80,7 +80,7 @@ public class soundFX : MonoBehaviour {
 		tauntList = new AudioSource[]{ryanWatchYourBack, ryanTaze, ryanSwiggity, ryanSuckMyDick, 
 				ryanSpleen, ryanInternetToughGuy, ryanStabMe, ryanYoullNeverSeeMe, ryanFruityFruityBumBum};
 		sounds = new AudioSource[]{heatherIntroduction, heatherIntroductionWhatDo, 
-				heatherInstructionsUpDown, heatherInstructionsLeftClick, heatherInstructionsRightClick,
+				heatherInstructionsUpDown, heatherInstructionsLeftClick, heatherInstructionsMiddleClick,
 				heatherOptionsJoin, heatherOptionsHost, heatherOptionsEnterIP, heatherOptionsChooseLevel,
 				heatherLevelFirePit, heatherLevelBunker};
 	}
