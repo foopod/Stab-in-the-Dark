@@ -231,11 +231,6 @@ private function UpdateFunction () {
 	
    	// Move our character!
 	movement.collisionFlags = controller.Move (currentMovementOffset);
-
-	//Determine if moving
-	if (currentMovementOffset.magnitude > 15.5*Time.deltaTime){	//15.5(speed) is the threshold for footsteps to start
-		networkView.RPC("PlayWalk", RPCMode.All, "");
-	}
 	
 	movement.lastHitPoint = movement.hitPoint;
 	lastGroundNormal = groundNormal;
