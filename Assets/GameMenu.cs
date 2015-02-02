@@ -29,12 +29,14 @@ public class GameMenu : MonoBehaviour
         GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_INSTRUCTIONS_NAV3, 11.5f);
         GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_WHAT_DO, 14.5f);
         GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN, 16f);
-        // Invoke("toggleMenu", 16);
+        Invoke("skipIntro", 16);
 	}
 
     void skipIntro(){
         if(skipped != true){
-            playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN);
+            if(Input.anyKey){
+               playLocalMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN); 
+            }
             skipped = true;
         }
     }
