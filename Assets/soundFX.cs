@@ -41,23 +41,17 @@ public class soundFX : MonoBehaviour {
 	AudioSource footstepStone1;
 	AudioSource footstepStone2;
 	
+	private AudioSource[] tauntList;
+	
 	void Awake(){
-		int r = Random.Range(0, 3);
-		if (r == 0){
-			footstepStone1 = footstepStoneSound;
-		} else if (r == 1){
-			footstepStone1 = footstepStoneSound2;
-		} else {
-			footstepStone1 = footstepStoneSound3;
-		}
-		r = Random.Range(0, 3);
-		if (r == 0){
-			footstepStone2 = footstepStoneSound;
-		} else if (r == 1){
-			footstepStone2 = footstepStoneSound2;
-		} else {
-			footstepStone2 = footstepStoneSound3;
-		}
+		// Initialise footsteps
+		AudioSource[] sourceList = new AudioSource[]{footstepStoneSound, footstepStoneSound2, 
+				footstepStoneSound3};
+		footstepStone1 = sourceList[Random.Range(0, sourceList.Length)];
+		footstepStone2 = sourceList[Random.Range(0, sourceList.Length)];
+		// Initialise taunt list
+		tauntList = new AudioSource[]{ryanWatchYourBack, ryanTaze, ryanSwiggity, ryanSuckMyDick, 
+				ryanSpleen, ryanInternetToughGuy, ryanStabMe, ryanYoullNeverSeeMe, ryanFruityFruityBumBum};
 	}
 	
 	[RPC]
@@ -89,42 +83,18 @@ public class soundFX : MonoBehaviour {
 	}
 	
 	int lastTaunt = 0;
-	bool tauntAvailable = true;
+	private AudioSource lastTauntSound;
 	
 	[RPC]
 	public void Taunt(string taunt){
-		if (tauntAvailable){
-			tauntAvailable = false;
-			int r = Random.Range(0, 9);
+		if (lastTauntSound == null || !lastTauntSound.isPlaying){
+			int r = Random.Range(0, tauntList.Length);
 			while (r == lastTaunt){
-				r = Random.Range(0, 9);
+				r = Random.Range(0, tauntList.Length);
 			}
-			lastTaunt = r;
-			if (r == 0){
-				ryanWatchYourBack.Play();
-			} else if (r == 1){
-				ryanTaze.Play();
-			} else if (r == 2){
-				ryanSwiggity.Play();
-			} else if (r == 3){
-				ryanSuckMyDick.Play();
-			} else if (r == 4){
-				ryanSpleen.Play();
-			} else if (r == 5){
-				ryanInternetToughGuy.Play();
-			} else if (r == 6){
-				ryanStabMe.Play();
-			} else if (r == 7){
-				ryanYoullNeverSeeMe.Play();
-			} else if (r == 8){
-				ryanFruityFruityBumBum.Play();
-			}
-			Invoke("TauntAvailable", 3);
+			lastTauntSound = tauntList[r];
+			lastTauntSound.Play();
 		}
-	}
-	
-	void TauntAvailable(){
-		tauntAvailable = true;
 	}
 	
 	[RPC]
