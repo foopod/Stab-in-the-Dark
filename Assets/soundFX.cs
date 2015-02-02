@@ -128,7 +128,7 @@ public class soundFX : MonoBehaviour {
 	}
 	
 	[RPC]
-	public void PlayWalk(string clip){
+	public void PlayWalk(){
 		AudioSource sound;
 		if (leftFoot){
 			sound = footstepStone1;
@@ -144,5 +144,21 @@ public class soundFX : MonoBehaviour {
 			sound.Play();
 			leftFoot = !leftFoot;
 		}
+	}
+	
+	bool walkTimeout = false;
+	
+	[RPC]
+	public void PlayWalkSlow(){
+		if (!walkTimeout){
+			PlayWalk();
+			walkTimeout = true;
+			Invoke("PlayWalkReset", 1);
+		}
+	}
+	
+	[RPC]
+	public void PlayWalkReset(){
+		walkTimeout = false;
 	}
 }

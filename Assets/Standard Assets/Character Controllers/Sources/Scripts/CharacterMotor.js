@@ -180,7 +180,9 @@ function Awake () {
 	tr = transform;
 }
 
-public var footstepConcreteSound : AudioSource;
+// Used to lower the amount of RPC calls to reset the walking sound logic. 
+@System.NonSerialized
+var walkingReset = true;
 
 private function UpdateFunction () {
 	// We copy the actual velocity into a temporary variable that we can manipulate.
@@ -188,12 +190,6 @@ private function UpdateFunction () {
 	
 	// Update velocity based on input
 	velocity = ApplyInputVelocityChange(velocity);
-
-	//Determine if moving
-	if (velocity.magnitude > 0.1){
-		//walking = true;
-		networkView.RPC("PlayWalk", RPCMode.All, "");
-	}
 
 	// Apply gravity and jumping force
 	velocity = ApplyGravityAndJumping (velocity);
@@ -252,6 +248,22 @@ private function UpdateFunction () {
 	var oldHVelocity : Vector3 = new Vector3(velocity.x, 0, velocity.z);
 	movement.velocity = (tr.position - lastPosition) / Time.deltaTime;
 	var newHVelocity : Vector3 = new Vector3(movement.velocity.x, 0, movement.velocity.z);
+	
+	// Play sound if moving
+	if (grounded && newHVelocity.magnitude > 0.1){
+		if (newHVelocity.magnitude > 5.0){
+			// Normal speed walking (max is 10.0)
+			networkView.RPC("PlayWalk", RPCMode.All);
+		} else {
+			// Slow walking
+			networkView.RPC("PlayWalkSlow", RPCMode.All);
+		}
+		walkingReset = false;
+	} else if (!walkingReset){
+		// Stopped
+		networkView.RPC("PlayWalkReset", RPCMode.All);
+		walkingReset = true;
+	}
 	
 	// The CharacterController can be moved in unwanted directions when colliding with things.
 	// We want to prevent this from influencing the recorded velocity.
