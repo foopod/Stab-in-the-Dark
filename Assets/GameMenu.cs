@@ -5,6 +5,7 @@ public class GameMenu : MonoBehaviour
 {
     public GameObject PlayerPrefab;
     string ip = "127.0.0.1";
+    bool connected;
 
     //Menu option identifiers
     public static int MENU_HOST = 1;
@@ -151,9 +152,6 @@ public class GameMenu : MonoBehaviour
     {
         CreatePlayer();
     }
-    bool connected;
-	static int levelNum = 0;
-	const int levelCount = 2;
     void OnGUI()
     {
         if (!connected)
