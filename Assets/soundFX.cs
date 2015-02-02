@@ -28,7 +28,32 @@ public class soundFX : MonoBehaviour {
 	public AudioSource ryanStabMe;
 	public AudioSource ryanYoullNeverSeeMe;
 	public AudioSource ryanFruityFruityBumBum;
-	
+
+	public AudioSource heatherInstructionsUpDown;
+	public AudioSource heatherInstructionsRightClick;
+	public AudioSource heatherInstructionsLeftClick;
+	public AudioSource heatherIntroduction;
+	public AudioSource heatherIntroductionWhatDo;
+	public AudioSource heatherLevelFirePit;
+	public AudioSource heatherLevelBunker;
+	public AudioSource heatherOptionsJoin;
+	public AudioSource heatherOptionsHost;
+	public AudioSource heatherOptionsChooseLevel;
+	public AudioSource heatherOptionsEnterIP;
+
+
+	public static int SFX_MENU_INTRO = 1;
+	public static int SFX_MENU_WHAT_DO = 2;
+	public static int SFX_MENU_INSTRUCTIONS_NAV1 = 3;
+	public static int SFX_MENU_INSTRUCTIONS_NAV2 = 4;
+	public static int SFX_MENU_INSTRUCTIONS_NAV3 = 5;
+	public static int SFX_MENU_OPTIONS_JOIN = 6;
+	public static int SFX_MENU_OPTIONS_HOST = 7;
+	public static int SFX_MENU_OPTIONS_ENTER_IP = 8;
+	public static int SFX_MENU_OPTIONS_CHOOSE_LEVEL = 9;
+	public static int SFX_MENU_LEVEL_FIREPIT = 10;
+	public static int SFX_MENU_LEVEL_BUNKER = 11;
+		
 	public static string SFX_KNIFE_MISS = "M";
 	public static string SFX_KNIFE_HIT_PLAYER = "P";
 	public static string SFX_WOOP = "W";
@@ -86,6 +111,37 @@ public class soundFX : MonoBehaviour {
 	
 	void PlayYouHaveDied(){
 		kateYouHaveDied.Play();
+	}
+
+	public void PlayMenuSound(int sound, float delay){
+		AudioSource soundToPlay = null;
+		
+		if(sound == SFX_MENU_INTRO){
+			soundToPlay = heatherIntroduction;
+		} else if(sound == SFX_MENU_WHAT_DO){
+			soundToPlay = heatherIntroductionWhatDo;
+		} else if(sound == SFX_MENU_INSTRUCTIONS_NAV1){
+			soundToPlay = heatherInstructionsUpDown;
+		} else if(sound == SFX_MENU_INSTRUCTIONS_NAV2){
+			soundToPlay = heatherInstructionsLeftClick;
+		} else if(sound == SFX_MENU_INSTRUCTIONS_NAV3){
+			soundToPlay = heatherInstructionsRightClick;
+		} else if(sound == SFX_MENU_OPTIONS_JOIN){
+			soundToPlay = heatherOptionsJoin;
+		} else if(sound == SFX_MENU_OPTIONS_HOST){
+			soundToPlay = heatherOptionsHost;
+		} else if(sound == SFX_MENU_OPTIONS_ENTER_IP){
+			soundToPlay = heatherOptionsEnterIP;
+		} else if(sound == SFX_MENU_OPTIONS_CHOOSE_LEVEL){
+			soundToPlay = heatherOptionsChooseLevel;
+		} else if(sound == SFX_MENU_LEVEL_FIREPIT){
+			soundToPlay = heatherLevelFirePit;
+		} else if(sound == SFX_MENU_LEVEL_BUNKER){
+			soundToPlay = heatherLevelBunker;
+		}
+
+		soundToPlay.PlayDelayed(delay);
+
 	}
 	
 	int lastTaunt = 0;

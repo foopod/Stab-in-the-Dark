@@ -5,9 +5,120 @@ public class GameMenu : MonoBehaviour
 {
     public GameObject PlayerPrefab;
     string ip = "127.0.0.1";
-	
-	void Awake(){
+
+    //Menu option identifiers
+    public static int MENU_HOST = 1;
+    public static int MENU_JOIN = 2;
+    public static int MENU_ENTER_IP = 3;
+    public static int MENU_LEVEL_OPTIONS = 4;
+    public static int MENU_FIREPIT = 5;
+    public static int MENU_BUNKER = 6;
+
+    //Used to iterate the menu
+    int currentMenuItem = MENU_JOIN;
+    bool menuEnabled = false;
+    bool enteringIP = false;
+
+	void Start(){
+        //Play introduction on start
+        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_INTRO, 0f);
+        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_INSTRUCTIONS_NAV1, 5.5f);
+        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_INSTRUCTIONS_NAV2, 8.5f);
+        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_INSTRUCTIONS_NAV3, 11.5f);
+        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_WHAT_DO, 14.5f);
+        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN, 16f);
+        Invoke("toggleMenu", 16);
 	}
+
+    void toggleMenu(){
+        menuEnabled = !menuEnabled;
+    }
+
+    void Update(){
+        //navigate menu
+        GUI.FocusControl("MyTextField");
+            if(menuEnabled){
+                if (Input.GetKeyDown(KeyCode.W)){
+                    //Moving up in the Main menu
+                    if(currentMenuItem == MENU_JOIN){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_CHOOSE_LEVEL, 0f);
+                        currentMenuItem = MENU_LEVEL_OPTIONS;
+                    } else if(currentMenuItem == MENU_HOST){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN, 0f);
+                        currentMenuItem = MENU_JOIN;
+                    } else if(currentMenuItem == MENU_LEVEL_OPTIONS){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_HOST, 0f);
+                        currentMenuItem = MENU_HOST;
+                    //Moving up in the level menu
+                    } else if(currentMenuItem == MENU_FIREPIT){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_LEVEL_BUNKER, 0f);
+                        currentMenuItem = MENU_BUNKER;
+                    } else if(currentMenuItem == MENU_BUNKER){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_LEVEL_FIREPIT, 0f);
+                        currentMenuItem = MENU_FIREPIT;
+                    }
+                }
+                if (Input.GetKeyDown(KeyCode.S)){
+                    //Moving down in the Main menu
+                    if(currentMenuItem == MENU_JOIN){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_HOST, 0f);
+                        currentMenuItem = MENU_HOST;
+                    } else  if(currentMenuItem == MENU_HOST){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_CHOOSE_LEVEL, 0f);
+                        currentMenuItem = MENU_LEVEL_OPTIONS;
+                    } else if(currentMenuItem == MENU_LEVEL_OPTIONS){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN, 0f);
+                        currentMenuItem = MENU_JOIN;
+                    //Moving down in the level menu
+                    } else if(currentMenuItem == MENU_FIREPIT){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_LEVEL_BUNKER, 0f);
+                        currentMenuItem = MENU_BUNKER;
+                    } else if(currentMenuItem == MENU_BUNKER){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_LEVEL_FIREPIT, 0f);
+                        currentMenuItem = MENU_FIREPIT;
+                    }
+                }
+                if (Input.GetMouseButtonDown(0)){
+                    //toggle onGUI to enter IP
+                    if(currentMenuItem == MENU_JOIN){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_ENTER_IP, 0f);
+                        currentMenuItem = MENU_ENTER_IP;
+                        enteringIP = true;
+                    //Start hosting a game
+                    } else  if(currentMenuItem == MENU_HOST){
+                        Network.InitializeServer(10, 5300, false);
+                        menuEnabled = !menuEnabled;
+                    //Move to level Select
+                    } else  if(currentMenuItem == MENU_LEVEL_OPTIONS){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_LEVEL_FIREPIT, 0f);
+                        currentMenuItem = MENU_FIREPIT;
+                    //Loading different levels
+                    } else  if(currentMenuItem == MENU_FIREPIT){
+                        Application.LoadLevel(1);
+                    } else  if(currentMenuItem == MENU_BUNKER){
+                        Application.LoadLevel(0);
+                    }
+                }
+                if (Input.GetMouseButtonDown(1)){
+                    //Moving back to previous menus
+                    if(currentMenuItem == MENU_ENTER_IP){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN, 0f);
+                        currentMenuItem = MENU_JOIN;
+                        enteringIP = false;
+                    } else if(currentMenuItem == MENU_FIREPIT || currentMenuItem == MENU_BUNKER ){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_HOST, 0f);
+                        currentMenuItem = MENU_HOST;
+                    } else  if(currentMenuItem == MENU_FIREPIT){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN, 0f);
+                        currentMenuItem = MENU_LEVEL_OPTIONS;
+                    } else  if(currentMenuItem == MENU_BUNKER){
+                        GetComponent<soundFX>().PlayMenuSound(soundFX.SFX_MENU_OPTIONS_JOIN, 0f);
+                        currentMenuItem = MENU_LEVEL_OPTIONS;
+                    }
+                }
+            }
+            
+    }
 	
     public void CreatePlayer()
     {
@@ -40,23 +151,13 @@ public class GameMenu : MonoBehaviour
     void OnGUI()
     {
         if (!connected)
-        {
-            ip = gui.TextField(ip);
-            if (gui.Button("connect"))
-            {
-                Network.Connect(ip, 5300);
+        { 
+            if(enteringIP){
+                //Turning on GUI and setting it to focus
+                GUI.SetNextControlName("MyTextField");
+                ip = GUILayout.TextField(ip);
+                GUI.FocusControl("MyTextField");
             }
-            if (gui.Button("host"))
-            {
-                Network.InitializeServer(10, 5300, false);
-            }
-			if (gui.Button("change")){
-				levelNum += 1;
-				if (levelNum >= levelCount){
-					levelNum = 0;
-				}
-				Application.LoadLevel(levelNum);
-			}
         }
     }
 }
