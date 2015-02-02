@@ -53,6 +53,7 @@ public class soundFX : MonoBehaviour {
 	public static int SFX_MENU_OPTIONS_CHOOSE_LEVEL = 9;
 	public static int SFX_MENU_LEVEL_FIREPIT = 10;
 	public static int SFX_MENU_LEVEL_BUNKER = 11;
+	public static int SFX_MENU_SKIP = 12;
 		
 	public static string SFX_KNIFE_MISS = "M";
 	public static string SFX_KNIFE_HIT_PLAYER = "P";
@@ -62,7 +63,7 @@ public class soundFX : MonoBehaviour {
 	public static string SFX_DIE_YOU = "Y";
 	public static string SFX_BURNT = "B";
 	
-	bool leftFoot = false;
+	bool leftFoot = true;
 	AudioSource footstepStone1;
 	AudioSource footstepStone2;
 	
@@ -132,10 +133,15 @@ public class soundFX : MonoBehaviour {
 			soundToPlay = heatherLevelFirePit;
 		} else if(sound == SFX_MENU_LEVEL_BUNKER){
 			soundToPlay = heatherLevelBunker;
+		} else if(sound == SFX_MENU_SKIP){
+  			AudioSource[] sounds = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
+  			foreach(AudioSource a in sounds){
+  				a.Stop();
+  			}
 		}
-
-		soundToPlay.PlayDelayed(delay);
-
+		if(sound != SFX_MENU_SKIP){
+			soundToPlay.PlayDelayed(delay);
+		}
 	}
 	
 	int lastTaunt = 0;
