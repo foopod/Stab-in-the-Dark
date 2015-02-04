@@ -109,6 +109,9 @@ public class GameMenu : MonoBehaviour
                     Application.LoadLevel(1);
                 } else  if(currentMenuItem == MENU_BUNKER){
                     Application.LoadLevel(0);
+                } else  if(currentMenuItem == MENU_ENTER_IP){
+                    Debug.Log("joining a game at " + ip);
+                    Network.Connect(ip, 5300);
                 }
             }
             if (Input.GetMouseButtonDown(2) && skipped){
