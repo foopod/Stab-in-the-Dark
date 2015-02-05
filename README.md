@@ -11,13 +11,13 @@ Stab in the Dark
 
 Explore a world where the only way you can perceive your environment is through audio queues.
 
-Stab in the Dark is a first person shooter game for the visually impared. The brain child of [ScreamingHawk][] and [foo][], Stab in the Dark offered a chance to play with [Unity][] and create a multiplayer, multi-platform game with an emphasis on sound. With the lack of visual cues, you have to rely on your sense of sound to navigate the map, avoid enviornmental hazards and find your opponents. 
+Stab in the Dark is a first person shooter game for the visually impared. The brain child of [ScreamingHawk][] and [foo][], Stab in the Dark offered a chance to play with [Unity][] and create a multiplayer, multi-platform game with an emphasis on sound. With the lack of visual cues, you have to rely on your sense of sound to navigate the map, avoid environmental hazards and find your opponents. 
 
 
 Status
 ------
 
-Stab in the Dark is work in progress, however it is constantly being improved. A number of features are listed below. 
+Stab in the Dark is a work in progress, however it is constantly being improved. A number of features are listed below. 
 
 * Ability to Host and Join a game using an IP address
 * Level selection
@@ -30,7 +30,7 @@ Gameplay
 --------
 
 ### Game Menu
-Upon opening the game you will be introduced to Heather, the game menu AI. Heather will assist you in selecting options in the menu by reading them aloud. Navigate the menu using up (W), down (S), select (left click) and back (right click). 
+Upon opening the game you will be introduced to Heather, the game menu AI. Heather will assist you in selecting options in the menu by reading them aloud. Navigate the menu using up (W), down (S), select (left click) and back (middle click). 
 
 ##### Host a Game
 Hosting a game will allow you to play a game with your friends! 
@@ -42,7 +42,7 @@ Joining a game will allow you join a game hosted by your friend!
 Entering this menu will allow you to select which level you would like to host. 
 
 ### In Game
-In the game, you goal is to kill the other players by stabbing them. To do this you have to use your sense of sound to navigate the map, avoid hazards and find your opponents. 
+In the game, your goal is to kill the other players by stabbing them. To do this you have to use your sense of sound to navigate the map, avoid hazards and find your opponents. 
 
 Use WASD to move around the level and Left click to slash with your knife. You can also taunt your opponent by clicking the mouse wheel. 
 
