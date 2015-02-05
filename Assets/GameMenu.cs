@@ -112,6 +112,7 @@ public class GameMenu : MonoBehaviour
                 } else  if(currentMenuItem == MENU_ENTER_IP){
                     Debug.Log("joining a game at " + ip);
                     Network.Connect(ip, 5300);
+                    menuEnabled = false;
                 }
             }
             if (Input.GetMouseButtonDown(2) && skipped){
